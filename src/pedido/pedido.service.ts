@@ -7,8 +7,28 @@ import { PrismaService } from 'src/database/PrismaService';
 export class PedidoService {
   constructor(private prisma: PrismaService) {}
 
-  create(createPedidoDto: CreatePedidoDto) {
-    return 'This action adds a new pedido';
+  async create(createPedidoDto: CreatePedidoDto) {
+    const {
+    sala,
+    procedimento,
+    doutor,
+    paciente,
+    hospital,
+    data_cirurgia,
+    observacao
+    } = createPedidoDto;
+
+    return await this.prisma.pedido.create({
+      data: {
+        sala,
+        procedimento,
+        doutor,
+        paciente,
+        hospital,
+        data_cirurgia,
+        observacao,
+      },
+    });
   }
 
   findAll() {
