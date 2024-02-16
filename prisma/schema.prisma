@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Pedido {
+  codigo        Int @id @default(autoincrement())
+  sala          String 
+  procedimento  String
+  doutor        String
+  paciente      String
+  hospital      String
+  data_cirurgia DateTime
+  data_criacao  DateTime @default(now())
+  observacao    String @db.VarChar(100)
+
+  @@map("pedidos")
+}
