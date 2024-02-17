@@ -32,7 +32,11 @@ export class PedidoService {
   }
 
   async findAll() {
-    return await this.prisma.pedido.findMany();
+    return await this.prisma.pedido.findMany({
+      orderBy: {
+        data_criacao: 'desc',
+      }
+    });
   }
 
   findOne(id: number) {
