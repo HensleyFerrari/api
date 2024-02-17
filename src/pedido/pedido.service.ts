@@ -31,8 +31,8 @@ export class PedidoService {
     });
   }
 
-  findAll() {
-    return `This action returns all pedido`;
+  async findAll() {
+    return await this.prisma.pedido.findMany();
   }
 
   findOne(id: number) {
