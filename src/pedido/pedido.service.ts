@@ -47,7 +47,11 @@ export class PedidoService {
     return `This action updates a #${id} pedido`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pedido`;
+  async remove(codigo: number) {
+    return await this.prisma.pedido.delete({
+      where: {
+        codigo
+      }
+    });
   }
 }
