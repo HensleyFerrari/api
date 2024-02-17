@@ -43,8 +43,34 @@ export class PedidoService {
     return `This action returns a #${id} pedido`;
   }
 
-  update(id: number, updatePedidoDto: UpdatePedidoDto) {
-    return `This action updates a #${id} pedido`;
+  async update(
+    codigo: number,
+    updatePedidoDto: UpdatePedidoDto
+  ) {
+    const {
+    sala,
+    procedimento,
+    doutor,
+    paciente,
+    hospital,
+    data_cirurgia,
+    observacao
+    } = updatePedidoDto;
+
+    return this.prisma.pedido.update({
+      where : {
+        codigo,
+      },
+      data : {
+        sala,
+        procedimento,
+        doutor,
+        paciente,
+        hospital,
+        data_cirurgia,
+        observacao,
+      }
+    });
   }
 
   async remove(codigo: number) {
