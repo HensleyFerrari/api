@@ -39,8 +39,12 @@ export class PedidoService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pedido`;
+  async findOne(codigo: number) {
+    return await this.prisma.pedido.findUnique({
+      where: {
+        codigo
+      }
+    });
   }
 
   async update(
