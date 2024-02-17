@@ -17,18 +17,18 @@ export class PedidoController {
     return this.pedidoService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @Get(':codigo')
+  async findOne(@Param('codigo') id: string) {
     return this.pedidoService.findOne(+id);
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
+  @Patch(':codigo')
+  async update(@Param('codigo') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
     return this.pedidoService.update(+id, updatePedidoDto);
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
+  @Delete(':codigo')
+  async remove(@Param('codigo') id: string) {
     return this.pedidoService.remove(+id);
   }
 }
