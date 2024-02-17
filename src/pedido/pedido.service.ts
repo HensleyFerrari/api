@@ -74,10 +74,12 @@ export class PedidoService {
   }
 
   async remove(codigo: number) {
-    return await this.prisma.pedido.delete({
+    await this.prisma.pedido.delete({
       where: {
         codigo
       }
     });
+
+    return null;
   }
 }
