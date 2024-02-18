@@ -1,73 +1,114 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# A3DATA Pedidos Cirúrgicos - API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+http://localhost:3000/
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Instalação
 
-## Description
+### Mysql Server
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+Cria o banco de dados
+```sh
+  docker compose up
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+### API 
+Cria a imagem do backend no docker
+```sh
+docker build --pull --rm -f "DockerFile" -t api:lastest "."
+```
+Roda um container da api
+```sh
+docker run --name a3data -p 3000:3000 api:latest
 ```
 
-## Test
+## Rotas
 
-```bash
-# unit tests
-$ npm run test
+### GET
 
-# e2e tests
-$ npm run test:e2e
+- Procura por todos os pedidos ordenado pelo mais recente (data_criacao)
+  - /pedido
 
-# test coverage
-$ npm run test:cov
+```sh
+[
+  {
+  "codigo" : 1,
+  "sala": "310",
+  "procedimento": "Cirurgia no Tornozelo",
+  "doutor": "Sergio Silva",
+  "paciente": "Hensley Ferrari",
+  "hospital": "Hospital do Centro",
+  "data_cirurgia": "2024-02-25T11:38:56.000Z",
+  "data_criacao", : "2024-02-25T11:38:56.000Z",
+  "observacao": "Paciente com fratura no tornozelo"
+  },
+  {
+    "codigo" : 2,
+    "sala": "200",
+    "procedimento": "Cirurgia no Tornozelo",
+    "doutor": "Pedro Neto",
+    "paciente": "Luiz Ricardo",
+    "hospital": "Hospital da Zona Sul",
+    "data_cirurgia": "2024-02-25T11:38:56.000Z",
+    "data_criacao", : "2024-02-25T11:38:56.000Z",
+    "observacao": "Paciente com fratura exposta no tornozelo"
+  },
+]
 ```
 
-## Support
+### GET
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- Procura por um único pedido
+  - /pedido/{codigo}
 
-## Stay in touch
+```sh
+ {
+  "codigo" : 1,
+  "sala": "310",
+  "procedimento": "Cirurgia no Tornozelo",
+  "doutor": "Sergio Silva",
+  "paciente": "Hensley Ferrari",
+  "hospital": "Hospital do Centro",
+  "data_cirurgia": "2024-02-25T11:38:56.000Z",
+  "data_criacao", : "2024-02-25T11:38:56.000Z",
+  "observacao": "Paciente com fratura no tornozelo"
+}
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### POST
 
-## License
+- Cria um novo pedido cirúrgico
+  - /pedido
 
-Nest is [MIT licensed](LICENSE).
+```sh
+ {
+  "sala": "310",
+  "procedimento": "Cirurgia no Tornozelo",
+  "doutor": "Sergio Silva",
+  "paciente": "Hensley Ferrari",
+  "hospital": "Hospital do Centro",
+  "data_cirurgia": "2024-02-25T11:38:56.000Z",
+  "observacao": "Paciente com fratura no tornozelo"
+}
+```
+
+### PUT
+
+- Atualiza um pedido cirúrgico existente
+  - /pedido/{codigo}
+
+```sh
+ {
+  "sala": "310",
+  "procedimento": "Cirurgia no Tornozelo",
+  "doutor": "Sergio Silva",
+  "paciente": "Hensley Ferrari",
+  "hospital": "Hospital do Centro",
+  "data_cirurgia": "2024-02-25T11:38:56.000Z",
+  "observacao": "Paciente com fratura no tornozelo"
+}
+```
+
+### DELETE
+
+- Deleta um pedido médico existente
+  - /pedido/{codigo}
