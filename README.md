@@ -69,7 +69,7 @@ docker run --name a3data -p 3000:3000 api:latest
   "paciente": "Hensley Ferrari",
   "hospital": "Hospital do Centro",
   "data_cirurgia": "2024-02-25T11:38:56.000Z",
-  "data_criacao", : "2024-02-25T11:38:56.000Z",
+  "data_criacao" : "2024-02-25T11:38:56.000Z",
   "observacao": "Paciente com fratura no tornozelo"
 }
 ```

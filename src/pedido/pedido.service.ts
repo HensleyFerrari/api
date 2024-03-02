@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import { PedidoRepository } from '../database/repositories/pedido.respositories';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
-import { PrismaService } from 'src/database/PrismaService';
 
 @Injectable()
 export class PedidoService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly pedidoRepo: PedidoRepository) {}
 
   async create(createPedidoDto: CreatePedidoDto) {
     const {
@@ -18,7 +18,20 @@ export class PedidoService {
     observacao
     } = createPedidoDto;
 
-    return await this.prisma.pedido.create({
+    const roomTaken = await this.pedidoRepo.findFirst({
+      where: {
+        sala,
+        data_cirurgia
+      }
+    })
+
+    if (roomTaken) {
+      throw new ConflictException(
+        `Essa sala já está reservada para essa data.`
+      )
+    }
+
+    return await this.pedidoRepo.create({
       data: {
         sala,
         procedimento,
@@ -32,15 +45,11 @@ export class PedidoService {
   }
 
   async findAll() {
-    return await this.prisma.pedido.findMany({
-      orderBy: {
-        data_criacao: 'desc',
-      }
-    });
+    return await this.pedidoRepo.findAll();
   }
 
   async findOne(codigo: number) {
-    return await this.prisma.pedido.findUnique({
+    return await this.pedidoRepo.findFirst({
       where: {
         codigo
       }
@@ -61,7 +70,17 @@ export class PedidoService {
     observacao
     } = updatePedidoDto;
 
-    return this.prisma.pedido.update({
+    const updatePedidoNotTaken = await this.pedidoRepo.findFirst({
+      where: {
+        sala
+      }
+    })
+
+    if(updatePedidoNotTaken) {
+      throw new NotFoundException('Pedido de cirurgia não encontrado.')
+    }
+
+    return this.pedidoRepo.update({
       where : {
         codigo,
       },
@@ -78,7 +97,7 @@ export class PedidoService {
   }
 
   async remove(codigo: number) {
-    await this.prisma.pedido.delete({
+    await this.pedidoRepo.delete({
       where: {
         codigo
       }
